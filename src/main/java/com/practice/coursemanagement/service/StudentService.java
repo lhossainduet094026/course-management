@@ -1,5 +1,9 @@
 package com.practice.coursemanagement.service;
 
+import java.util.List;
+
+import com.practice.coursemanagement.api.dto.StudentResponseDto;
+import com.practice.coursemanagement.api.dto.StudentUpdateRequestDto;
 import com.practice.coursemanagement.model.Student;
 
 public interface StudentService {
@@ -13,4 +17,8 @@ public interface StudentService {
 	Student findStudentByEmail(String email);
 	
 	Student findById(Long id);
+	
+	List<StudentResponseDto> findAllStudents();
+	
+	StudentResponseDto updateStudent(Long id, StudentUpdateRequestDto updateRequestDto);
 }

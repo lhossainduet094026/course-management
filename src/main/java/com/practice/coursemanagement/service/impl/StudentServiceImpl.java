@@ -1,10 +1,13 @@
 package com.practice.coursemanagement.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.practice.coursemanagement.api.dto.StudentResponseDto;
+import com.practice.coursemanagement.api.dto.StudentUpdateRequestDto;
 import com.practice.coursemanagement.exception.ResourceAlreadyExistException;
 import com.practice.coursemanagement.exception.ResourceNotFoundException;
 import com.practice.coursemanagement.model.Student;
@@ -56,5 +59,24 @@ public class StudentServiceImpl implements StudentService {
 		 Optional<Student> student = studentRepository.findById(id);
 		 
 		 return student.orElseThrow(() -> new ResourceNotFoundException("Student not found with id:"+ id));
+	}
+
+	@Override
+	public List<StudentResponseDto> findAllStudents() {
+		return studentRepository.findAllStudents();
+	}
+
+	@Override
+	public StudentResponseDto updateStudent(Long id, StudentUpdateRequestDto updateRequestDto) {
+		
+		 Student student = studentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(
+			            "Student not found with id: " + id));
+		
+		 student.setEmail(updateRequestDto.getEmail());
+		 student.setName(updateRequestDto.getName());
+		 
+		 student = saveStudent(student);
+		 
+		 return StudentResponseDto.fromEntity(student);
 	}
 }
