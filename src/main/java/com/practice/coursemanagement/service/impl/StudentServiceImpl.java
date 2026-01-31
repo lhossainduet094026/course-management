@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.practice.coursemanagement.exception.ResourceAlreadyExistException;
+import com.practice.coursemanagement.exception.ResourceNotFoundException;
 import com.practice.coursemanagement.model.Student;
 import com.practice.coursemanagement.repository.StudentRepository;
 import com.practice.coursemanagement.service.StudentService;
@@ -21,6 +22,10 @@ public class StudentServiceImpl implements StudentService {
 	@Transactional
 	@Override
 	public Student saveStudent(Student student) {
+
+		studentRepository.findByEmail(student.getEmail())
+		.orElseThrow(() -> new ResourceAlreadyExistException("Student already exist with :" + student.getEmail()));
+
 		return studentRepository.save(student);
 	}
 
@@ -43,5 +48,13 @@ public class StudentServiceImpl implements StudentService {
 		Optional<Student> existingEmail = studentRepository.findByEmail(email);
 
 		return existingEmail.orElseThrow(() -> new ResourceAlreadyExistException("Student already exist with :" + email));
+	}
+
+	@Override
+	public Student findById(Long id) {
+		
+		 Optional<Student> student = studentRepository.findById(id);
+		 
+		 return student.orElseThrow(() -> new ResourceNotFoundException("Student not found with id:"+ id));
 	}
 }

@@ -35,6 +35,11 @@ public class GlobalExceptionHandler {
 
 		return new ResponseEntity<ApiResponse<?>>(ErrorResponse.of("Validation failed", errors), HttpStatus.BAD_REQUEST);
 	}
+	
+	@ExceptionHandler
+	public ResponseEntity<ApiResponse<ErrorResponse>> handleNotFoundException(ResourceNotFoundException exception){
+		return new ResponseEntity<ApiResponse<ErrorResponse>>(ErrorResponse.of(exception.getMessage()), HttpStatus.NOT_FOUND);
+	}
 
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<ApiResponse<?>> handleAnyException(Exception ex) {

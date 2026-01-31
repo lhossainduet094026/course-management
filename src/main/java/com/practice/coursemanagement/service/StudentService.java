@@ -12,4 +12,5 @@ public interface StudentService {
 	
 	Student findStudentByEmail(String email);
 	
+	Student findById(Long id);
 }
