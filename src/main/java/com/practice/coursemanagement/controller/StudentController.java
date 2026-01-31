@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.practice.coursemanagement.api.common.ApiResponse;
 import com.practice.coursemanagement.api.common.SuccessResponse;
+import com.practice.coursemanagement.api.dto.CourseResponseDto;
 import com.practice.coursemanagement.api.dto.StudentCreateRequestDto;
 import com.practice.coursemanagement.api.dto.StudentResponseDto;
 import com.practice.coursemanagement.api.dto.StudentUpdateRequestDto;
@@ -71,5 +72,18 @@ public class StudentController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteStudent(@PathVariable Long id){
 		return ResponseEntity.noContent().build();
+	}
+	
+//	GET	/api/v1/students/{id}/courses	Get courses enrolled by student
+	@GetMapping("/{id}/courses")
+	public ResponseEntity<ApiResponse<List<CourseResponseDto>>> findCoursesOfStudent(@PathVariable Long id){
+		List<CourseResponseDto> courses = studentService.findCoursesOfStudent(id);
+		return new ResponseEntity<ApiResponse<List<CourseResponseDto>>>(SuccessResponse.of("Courses found successful", courses), HttpStatus.OK);
+	}
+	
+//	/api/v1/students/{id}/courses/{courseId}	Enroll student in course
+	@PostMapping("/{studentId}/courses/{courseId}")
+	public ResponseEntity<ApiResponse<Void>> enrollCourse(@PathVariable Long studentId, @PathVariable Long courseId){
+		return new ResponseEntity<ApiResponse<Void>>(SuccessResponse.of("Course enrolled successful") , HttpStatus.OK);
 	}
 }

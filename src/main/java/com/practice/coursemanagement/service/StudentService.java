@@ -2,6 +2,7 @@ package com.practice.coursemanagement.service;
 
 import java.util.List;
 
+import com.practice.coursemanagement.api.dto.CourseResponseDto;
 import com.practice.coursemanagement.api.dto.StudentResponseDto;
 import com.practice.coursemanagement.api.dto.StudentUpdateRequestDto;
 import com.practice.coursemanagement.model.Student;
@@ -21,4 +22,8 @@ public interface StudentService {
 	List<StudentResponseDto> findAllStudents();
 	
 	StudentResponseDto updateStudent(Long id, StudentUpdateRequestDto updateRequestDto);
+	
+	List<CourseResponseDto> findCoursesOfStudent(Long studentId);
+
+	void enrollCourse(Long studentId, Long courseId);
 }
