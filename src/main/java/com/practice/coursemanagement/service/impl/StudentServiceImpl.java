@@ -1,0 +1,47 @@
+package com.practice.coursemanagement.service.impl;
+
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.practice.coursemanagement.exception.ResourceAlreadyExistException;
+import com.practice.coursemanagement.model.Student;
+import com.practice.coursemanagement.repository.StudentRepository;
+import com.practice.coursemanagement.service.StudentService;
+
+import jakarta.transaction.Transactional;
+
+@Service
+public class StudentServiceImpl implements StudentService {
+
+	@Autowired
+	private StudentRepository studentRepository;
+
+	@Transactional
+	@Override
+	public Student saveStudent(Student student) {
+		return studentRepository.save(student);
+	}
+
+	@Transactional
+	@Override
+	public Student update(Long studentId, Student student) {
+		student.setId(studentId);
+		return studentRepository.save(student);
+	}
+
+	@Transactional
+	@Override
+	public void deleteStudent(Long studentId) {
+		studentRepository.deleteById(studentId);
+	}
+
+	@Override
+	public Student findStudentByEmail(String email) {
+
+		Optional<Student> existingEmail = studentRepository.findByEmail(email);
+
+		return existingEmail.orElseThrow(() -> new ResourceAlreadyExistException("Student already exist with :" + email));
+	}
+}
