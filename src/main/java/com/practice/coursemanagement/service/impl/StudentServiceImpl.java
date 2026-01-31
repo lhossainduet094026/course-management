@@ -42,6 +42,13 @@ public class StudentServiceImpl implements StudentService {
 	@Transactional
 	@Override
 	public void deleteStudent(Long studentId) {
+
+		Optional<Student> student = studentRepository.findById(studentId);
+
+		if (student.isEmpty()) {
+			throw new ResourceNotFoundException("Student doesn't exist with id: " + studentId);
+		}
+
 		studentRepository.deleteById(studentId);
 	}
 
