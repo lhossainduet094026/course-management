@@ -11,6 +11,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import com.practice.coursemanagement.api.common.ApiResponse;
 import com.practice.coursemanagement.api.common.ErrorResponse;
@@ -39,6 +40,12 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler
 	public ResponseEntity<ApiResponse<ErrorResponse>> handleNotFoundException(ResourceNotFoundException exception){
 		return new ResponseEntity<ApiResponse<ErrorResponse>>(ErrorResponse.of(exception.getMessage()), HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
+	public ResponseEntity<ApiResponse<ErrorResponse>> handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
+	    String message = String.format("Invalid value '%s' for parameter '%s'",ex.getValue(), ex.getName());
+	    return ResponseEntity.badRequest().body(ErrorResponse.of(message));
 	}
 
 	@ExceptionHandler(Exception.class)
