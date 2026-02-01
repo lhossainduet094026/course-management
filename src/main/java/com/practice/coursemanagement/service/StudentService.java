@@ -3,6 +3,8 @@ package com.practice.coursemanagement.service;
 import java.util.List;
 
 import com.practice.coursemanagement.api.dto.CourseResponseDto;
+import com.practice.coursemanagement.api.dto.ProfileCreateRequestDto;
+import com.practice.coursemanagement.api.dto.ProfileResponseDto;
 import com.practice.coursemanagement.api.dto.StudentResponseDto;
 import com.practice.coursemanagement.api.dto.StudentUpdateRequestDto;
 import com.practice.coursemanagement.model.Student;
@@ -26,4 +28,6 @@ public interface StudentService {
 	List<CourseResponseDto> findCoursesOfStudent(Long studentId);
 
 	void enrollCourse(Long studentId, Long courseId);
+	
+	ProfileResponseDto createStudentProfile(Long studentId, ProfileCreateRequestDto profileCreateRequestDto);
 }

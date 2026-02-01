@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.practice.coursemanagement.api.common.ApiResponse;
 import com.practice.coursemanagement.api.common.SuccessResponse;
 import com.practice.coursemanagement.api.dto.CourseResponseDto;
+import com.practice.coursemanagement.api.dto.ProfileCreateRequestDto;
+import com.practice.coursemanagement.api.dto.ProfileResponseDto;
 import com.practice.coursemanagement.api.dto.StudentCreateRequestDto;
 import com.practice.coursemanagement.api.dto.StudentResponseDto;
 import com.practice.coursemanagement.api.dto.StudentUpdateRequestDto;
@@ -85,5 +87,11 @@ public class StudentController {
 	@PostMapping("/{studentId}/courses/{courseId}")
 	public ResponseEntity<ApiResponse<Void>> enrollCourse(@PathVariable Long studentId, @PathVariable Long courseId){
 		return new ResponseEntity<ApiResponse<Void>>(SuccessResponse.of("Course enrolled successful") , HttpStatus.OK);
+	}
+	
+	@PostMapping("/{studentId}/profile")
+	public ResponseEntity<ApiResponse<ProfileResponseDto>> createProfile(@PathVariable("studentId") Long studentId, @RequestBody ProfileCreateRequestDto profileCreateRequestDto){
+		ProfileResponseDto responseDto = studentService.createStudentProfile(studentId, profileCreateRequestDto);
+		return new ResponseEntity<ApiResponse<ProfileResponseDto>>(SuccessResponse.of("Student profile created successful", responseDto), HttpStatus.CREATED);
 	}
 }

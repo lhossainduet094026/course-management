@@ -7,12 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.practice.coursemanagement.api.dto.CourseResponseDto;
+import com.practice.coursemanagement.api.dto.ProfileCreateRequestDto;
+import com.practice.coursemanagement.api.dto.ProfileResponseDto;
 import com.practice.coursemanagement.api.dto.StudentResponseDto;
 import com.practice.coursemanagement.api.dto.StudentUpdateRequestDto;
 import com.practice.coursemanagement.exception.ResourceAlreadyExistException;
 import com.practice.coursemanagement.exception.ResourceNotFoundException;
 import com.practice.coursemanagement.model.Course;
 import com.practice.coursemanagement.model.Student;
+import com.practice.coursemanagement.model.StudentProfile;
 import com.practice.coursemanagement.repository.CourseRepository;
 import com.practice.coursemanagement.repository.StudentRepository;
 import com.practice.coursemanagement.service.StudentService;
@@ -118,5 +121,25 @@ public class StudentServiceImpl implements StudentService {
 		student.addCourse(course);
 		
 		studentRepository.save(student);
+	}
+
+	@Transactional
+	@Override
+	public ProfileResponseDto createStudentProfile(Long studentId, ProfileCreateRequestDto profileCreateRequestDto) {
+		
+		Optional<Student> student = studentRepository.findById(studentId);
+		
+		if(student.isEmpty())
+			throw new ResourceNotFoundException("Student does not exist with id : " + studentId);
+		
+		StudentProfile studentProfile = new StudentProfile();
+		studentProfile.setAddress(profileCreateRequestDto.getAddress());
+		studentProfile.setPhone(profileCreateRequestDto.getPhone());
+		studentProfile.setDob(profileCreateRequestDto.getDob());
+		
+		student.get().setStudentProfile(studentProfile);
+		studentRepository.save(student.get());
+		
+		return ProfileResponseDto.fromEntity(studentProfile);
 	}
 }

@@ -3,6 +3,7 @@ package com.practice.coursemanagement.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,15 +11,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
-
-//CREATE TABLE `students` (
-//		  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-//		  `name` varchar(100) DEFAULT NULL,
-//		  `email` varchar(100) DEFAULT NULL,
-//		  PRIMARY KEY (`id`)
-//		) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 @Entity
 @Table(name = "students")
@@ -46,4 +41,8 @@ public class Student {
 		courses.remove(course);
 		course.getStudents().remove(this);
 	}
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "profile_id", nullable = true)
+	private StudentProfile studentProfile;
 }
