@@ -26,7 +26,9 @@ import com.practice.coursemanagement.model.Student;
 import com.practice.coursemanagement.service.StudentService;
 
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("api/v1/students")
 public class StudentController {
@@ -43,6 +45,9 @@ public class StudentController {
 			@Valid @RequestBody StudentCreateRequestDto studentCreateRequestDto) {
 
 		Student persistentStudent = studentService.saveStudent(studentCreateRequestDto.toEntity());
+		
+		log.info("id :{}", persistentStudent.getId());
+		
 		StudentResponseDto studentResponseDto = StudentResponseDto.fromEntity(persistentStudent);
 
 		return new ResponseEntity<ApiResponse<StudentResponseDto>>(

@@ -36,7 +36,11 @@ public class StudentServiceImpl implements StudentService {
 	public Student saveStudent(Student student) {
 
 		studentRepository.findByEmail(student.getEmail())
-		.orElseThrow(() -> new ResourceAlreadyExistException("Student already exist with :" + student.getEmail()));
+	    .ifPresent(s -> {
+	        throw new ResourceAlreadyExistException(
+	            "Student already exists with: " + student.getEmail()
+	        );
+	    });
 
 		return studentRepository.save(student);
 	}
