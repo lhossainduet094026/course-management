@@ -2,7 +2,13 @@ package com.practice.coursemanagement.controller;
 
 import java.util.List;
 
+import javax.swing.SortOrder;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -98,5 +104,11 @@ public class StudentController {
 	public ResponseEntity<ApiResponse<ProfileResponseDto>> createProfile(@PathVariable("studentId") Long studentId, @RequestBody ProfileCreateRequestDto profileCreateRequestDto){
 		ProfileResponseDto responseDto = studentService.createStudentProfile(studentId, profileCreateRequestDto);
 		return new ResponseEntity<ApiResponse<ProfileResponseDto>>(SuccessResponse.of("Student profile created successful", responseDto), HttpStatus.CREATED);
+	}
+	
+	@GetMapping("/paged")
+	public ResponseEntity<ApiResponse<Page<StudentResponseDto>>> getStudents(@PageableDefault(size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable){
+		Page studentPage = studentService.getStduents(pageable);
+		return new ResponseEntity<ApiResponse<Page<StudentResponseDto>>>(SuccessResponse.of("Student found successful", studentPage), HttpStatus.OK);
 	}
 }

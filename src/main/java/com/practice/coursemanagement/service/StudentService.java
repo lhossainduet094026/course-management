@@ -2,6 +2,9 @@ package com.practice.coursemanagement.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.practice.coursemanagement.api.dto.CourseResponseDto;
 import com.practice.coursemanagement.api.dto.ProfileCreateRequestDto;
 import com.practice.coursemanagement.api.dto.ProfileResponseDto;
@@ -30,4 +33,6 @@ public interface StudentService {
 	void enrollCourse(Long studentId, Long courseId);
 	
 	ProfileResponseDto createStudentProfile(Long studentId, ProfileCreateRequestDto profileCreateRequestDto);
+	
+	Page getStduents(Pageable pageable);
 }
