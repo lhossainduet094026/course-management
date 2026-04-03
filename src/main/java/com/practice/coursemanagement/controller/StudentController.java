@@ -84,6 +84,7 @@ public class StudentController {
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteStudent(@PathVariable Long id){
+		studentService.deleteStudent(id);
 		return ResponseEntity.noContent().build();
 	}
 	
