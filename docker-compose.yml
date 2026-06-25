@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+
+  mysql-db:
+    image: mysql:8.0
+    container_name: mysql-db
+    restart: always
+
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: student_course_mgmt
+
+    ports:
+      - "8000:3306"
+
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  app:
+    build: .
+    container_name: course-management
+    restart: always
+
+    ports:
+      - "8080:8080"
+
+    depends_on:
+      - mysql-db
+
+    environment:
+      DB_URL: jdbc:mysql://mysql-db:3306/student_course_mgmt
+      DB_USER: root
+      DB_PASSWORD: root
+
+volumes:
+  mysql-data:
