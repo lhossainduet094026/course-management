@@ -1,4 +1,4 @@
-# 📘 Course Management System (Spring Boot + JPA Practice Project)
+# 📘 Course Management System (Assignment Project)
 
 A backend RESTful application built with **Spring Boot** to demonstrate real-world usage of **JPA/Hibernate, validation, exception handling, and layered architecture** in a course management domain.
 
