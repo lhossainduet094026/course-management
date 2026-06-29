@@ -1,8 +1,10 @@
-# 📘 Course Management System (Assignment Project)
+# Course Management System
 
-A backend RESTful application built with **Spring Boot** to demonstrate real-world usage of **JPA/Hibernate, validation, exception handling, and layered architecture** in a course management domain.
+A backend RESTful service built using Spring Boot to simulate a real-world course management platform.
 
-This project was created to deeply understand **persistence context behavior, entity relationships, and transactional data management** while designing APIs similar to production systems.
+Implemented using clean layered architecture with JPA/Hibernate for data persistence, transaction management, request validation, exception handling, and relational database modeling.
+
+Integrated containerization using Docker, database migration management with Flyway.
 
 ---
 
